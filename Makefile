@@ -11,11 +11,13 @@ LANGUAGE = --lang c #if C++, desactivate it
 
 # C PARAMS
 NAME = executable
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror
 
 all:
 	$(MAKE) build-lib
 	$(MAKE) header
-	gcc --std=c11 -I ./ -o $(NAME) src/code.c  target/release/libft.so
+	$(CC) --std=c11 $(CFLAGS) -I ./ -o $(NAME) src/code.c  target/release/libft.so
 
 # Build the header for the c files
 header:
