@@ -1,6 +1,8 @@
+.PHONY: all clean header build-lib
 # RUST PARAMS
 CRATE_NAME = ft
-HEADER = my_header.h
+TMP_HEADER = temp.h
+HEADER = libft.h
 LANGUAGE = --lang c #if C++, desactivate it 
 
 # Platform	Pattern for lib created
@@ -20,8 +22,19 @@ all:
 	$(CC) --std=c11 $(CFLAGS) -I ./ -o $(NAME) src/code.c  target/release/libft.so
 
 # Build the header for the c files
-header:
-	cbindgen --crate $(CRATE_NAME) --output $(HEADER) $(LANGUAGE)
+header: $(TMP_HEADER)
+	cbindgen --config cbindgen.toml --crate $(CRATE_NAME) --output $(TMP_HEADER) $(LANGUAGE)
+	python3 process.py
+	@echo "$(HEADER) generated"
+	rm -f $(TMP_HEADER)
+
+# Temporary raw header
+$(TMP_HEADER):
+	cbindgen --config cbindgen.toml --crate $(CRATE_NAME) --output $@ $(LANGUAGE)
 
 build-lib:
 	cargo build --release
+
+clean:
+	cargo clean
+	rm -f $(HEADER) $(NAME)

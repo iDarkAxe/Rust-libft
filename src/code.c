@@ -6,21 +6,22 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 15:45:21 by ppontet           #+#    #+#             */
-/*   Updated: 2025/06/02 16:18:27 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2025/06/03 11:36:39 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "my_header.h"
+#include "libft.h"
 
-void	do_on_argv(char **argv, uint32_t (*cmd)(uint32_t))
+void	do_on_argv(char **argv, uint32_t (*cmd)(uint32_t), const char *name)
 {
 	size_t		index;
 	size_t		letter;
 
-	if (!argv)
+	if (!argv || !argv[0])
 		return ;
 	index = 0;
+	printf("Test avec %s\n", name);
 	while (argv[index])
 	{
 		letter = 0;
@@ -38,11 +39,11 @@ void	do_on_argv(char **argv, uint32_t (*cmd)(uint32_t))
 
 int	main(int argc, char **argv)
 {
-	printf("sum is %u\n", addition(1, 2));
-	if (argc == 1)
-		return (0);
-	printf("Test avec ft_isdigit\n");
-	do_on_argv(&argv[1], ft_isdigit);
-	printf("Test avec ft_isalnum\n");
-	do_on_argv(&argv[1], ft_isalnum);
+	char	*str;
+
+	(void)argc;
+	str = "Je suis une chaine";
+	do_on_argv(&argv[1], ft_isdigit, "ft_isdigit");
+	do_on_argv(&argv[1], ft_isalnum, "ft_isalnum");
+	printf("longueur de str %s = %zu", str, ft_strlen(str));
 }
